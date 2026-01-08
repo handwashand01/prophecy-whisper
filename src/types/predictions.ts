@@ -19,6 +19,7 @@ export interface Prediction {
   status: 'pending' | 'fulfilled' | 'failed';
   verificationStatus: 'auto_verified' | 'manual_verified' | 'unverifiable';
   source: string;
+  sourceTitle: string;
   sourceTimestamp?: number;
   createdAt: string;
   targetDate: string;

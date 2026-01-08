@@ -38,17 +38,18 @@ const ExpertPage = () => {
   }, [expert]);
 
   const groupedPredictions = useMemo(() => {
-    const groups: Record<string, { title: string; icon?: string; predictions: Prediction[] }> = {};
+    const groups: Record<string, { title: string; icon?: string; sourceUrl?: string; predictions: Prediction[] }> = {};
     
     expertPredictions.forEach(prediction => {
       const key = groupBy === 'source' ? prediction.source : prediction.topic.id;
       const title = groupBy === 'source' 
-        ? `Видео: ${prediction.source.split('watch?v=')[1] || 'Unknown'}`
+        ? prediction.sourceTitle
         : prediction.topic.name;
       const icon = groupBy === 'topic' ? prediction.topic.icon : undefined;
+      const sourceUrl = groupBy === 'source' ? prediction.source : undefined;
       
       if (!groups[key]) {
-        groups[key] = { title, icon, predictions: [] };
+        groups[key] = { title, icon, sourceUrl, predictions: [] };
       }
       groups[key].predictions.push(prediction);
     });
@@ -199,17 +200,27 @@ const ExpertPage = () => {
               >
                 <Card className="overflow-hidden">
                   <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-muted/50">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
                       {openGroups.has(group.id) ? (
-                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                        <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground" />
                       ) : (
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
                       )}
-                      <span className="text-lg font-medium">
-                        {group.icon && <span className="mr-2">{group.icon}</span>}
-                        {group.title}
-                      </span>
-                      <Badge variant="secondary">{group.stats.total} прогнозов</Badge>
+                      {groupBy === 'source' && (
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-500/10">
+                          <ExternalLink className="h-4 w-4 text-rose-500" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <span className="block text-base font-medium truncate">
+                          {group.icon && <span className="mr-2">{group.icon}</span>}
+                          {group.title}
+                        </span>
+                        {groupBy === 'source' && group.sourceUrl && (
+                          <span className="text-xs text-muted-foreground">YouTube</span>
+                        )}
+                      </div>
+                      <Badge variant="secondary" className="shrink-0">{group.stats.total} прогнозов</Badge>
                     </div>
                     
                     <div className="flex items-center gap-2">
