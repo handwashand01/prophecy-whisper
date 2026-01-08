@@ -44,7 +44,7 @@ const Index = () => {
       <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       <main className="container mx-auto px-4 py-6">
-        <TopExperts experts={experts} />
+        <TopExperts experts={experts} predictions={predictions} topics={topics} />
 
         <section className="py-8">
           <h2 className="mb-6 text-xl font-semibold">Прогнозы экспертов</h2>
