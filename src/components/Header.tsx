@@ -2,11 +2,11 @@ import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface HeaderProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
-export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
+export const Header = ({ searchQuery = '', onSearchChange }: HeaderProps = {}) => {
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto px-4 py-4">
@@ -27,7 +27,7 @@ export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
               type="search"
               placeholder="Поиск прогнозов и экспертов..."
               value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => onSearchChange?.(e.target.value)}
               className="pl-10"
             />
           </div>
