@@ -10,6 +10,13 @@ export interface Expert {
   failedPredictions: number;
 }
 
+export interface Verification {
+  status: 'pending' | 'fulfilled' | 'failed';
+  actualResult?: string;
+  evidenceLink?: string;
+  confidenceScore?: number;
+}
+
 export interface Prediction {
   id: string;
   expert: Expert;
@@ -18,6 +25,7 @@ export interface Prediction {
   interpretation: string;
   status: 'pending' | 'fulfilled' | 'failed';
   verificationStatus: 'auto_verified' | 'manual_verified' | 'unverifiable';
+  verification?: Verification;
   source: string;
   sourceTitle: string;
   sourceTimestamp?: number;
