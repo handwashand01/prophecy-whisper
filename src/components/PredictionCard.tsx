@@ -13,19 +13,22 @@ interface PredictionCardProps {
 
 const statusConfig = {
   pending: {
-    label: 'Ожидает',
+    label: 'Ожидает проверки',
     icon: Clock,
-    className: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+    className: 'bg-amber-500/20 text-amber-600 border-amber-500/30',
+    bgClassName: 'bg-amber-500/5 border-amber-500/20',
   },
   fulfilled: {
-    label: 'Сбылся',
+    label: '✓ Сбылся',
     icon: CheckCircle2,
-    className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+    className: 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30',
+    bgClassName: 'bg-emerald-500/5 border-emerald-500/20',
   },
   failed: {
-    label: 'Не сбылся',
+    label: '✗ Не сбылся',
     icon: XCircle,
-    className: 'bg-rose-500/10 text-rose-500 border-rose-500/20',
+    className: 'bg-rose-500/20 text-rose-600 border-rose-500/30',
+    bgClassName: 'bg-rose-500/5 border-rose-500/20',
   },
 };
 
@@ -105,11 +108,6 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
               </div>
             </div>
           </a>
-
-          <div className={cn('flex items-center gap-1.5 rounded-full border px-2.5 py-1', status.className)}>
-            <StatusIcon className="h-3.5 w-3.5" />
-            <span className="text-xs font-medium">{status.label}</span>
-          </div>
         </div>
 
         {/* Topic and confidence */}
@@ -160,12 +158,24 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
             </TooltipContent>
           </Tooltip>
 
-          {/* Проверка факта */}
+          {/* Проверка факта с бейджем статуса */}
           {hasVerification && (
-            <div>
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Проверка факта
-              </p>
+            <div className={cn(
+              'rounded-lg border p-3',
+              status.bgClassName
+            )}>
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Проверка факта
+                </p>
+                <div className={cn(
+                  'flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-semibold shadow-sm',
+                  status.className
+                )}>
+                  <StatusIcon className="h-4 w-4" />
+                  <span className="text-sm">{status.label}</span>
+                </div>
+              </div>
               <p className={cn(
                 'text-sm leading-relaxed text-foreground',
                 !isExpanded && 'line-clamp-2'
