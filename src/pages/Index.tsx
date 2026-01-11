@@ -5,15 +5,12 @@ import { PredictionFilters } from '@/components/PredictionFilters';
 import { PredictionCard } from '@/components/PredictionCard';
 import { TrendingTopics } from '@/components/TrendingTopics';
 import { experts, predictions, topics } from '@/data/mockData';
-import { PredictionStatus, ConfidenceLevel } from '@/types/predictions';
 import { FileQuestion } from 'lucide-react';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExpert, setSelectedExpert] = useState('all');
   const [selectedTopic, setSelectedTopic] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState<PredictionStatus>('all');
-  const [selectedConfidence, setSelectedConfidence] = useState<ConfidenceLevel>('all');
 
   const filteredPredictions = useMemo(() => {
     return predictions.filter((prediction) => {
@@ -29,15 +26,9 @@ const Index = () => {
       const matchesTopic =
         selectedTopic === 'all' || prediction.topic.id === selectedTopic;
 
-      const matchesStatus =
-        selectedStatus === 'all' || prediction.status === selectedStatus;
-
-      const matchesConfidence =
-        selectedConfidence === 'all' || prediction.confidence === selectedConfidence;
-
-      return matchesSearch && matchesExpert && matchesTopic && matchesStatus && matchesConfidence;
+      return matchesSearch && matchesExpert && matchesTopic;
     });
-  }, [searchQuery, selectedExpert, selectedTopic, selectedStatus, selectedConfidence]);
+  }, [searchQuery, selectedExpert, selectedTopic]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,12 +45,8 @@ const Index = () => {
             topics={topics}
             selectedExpert={selectedExpert}
             selectedTopic={selectedTopic}
-            selectedStatus={selectedStatus}
-            selectedConfidence={selectedConfidence}
             onExpertChange={setSelectedExpert}
             onTopicChange={setSelectedTopic}
-            onStatusChange={setSelectedStatus}
-            onConfidenceChange={setSelectedConfidence}
           />
 
           {filteredPredictions.length > 0 ? (
