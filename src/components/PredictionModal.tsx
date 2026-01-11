@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Prediction } from '@/types/predictions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,8 +21,12 @@ import {
   Target,
   FileText,
   Link2,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const QUOTE_MAX_LENGTH = 200;
 
 interface PredictionModalProps {
   prediction: Prediction | null;
@@ -72,7 +77,14 @@ const verificationConfig = {
 };
 
 export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionModalProps) => {
+  const [isQuoteExpanded, setIsQuoteExpanded] = useState(false);
+
   if (!prediction) return null;
+
+  const isLongQuote = prediction.originalQuote.length > QUOTE_MAX_LENGTH;
+  const displayedQuote = isLongQuote && !isQuoteExpanded
+    ? prediction.originalQuote.slice(0, QUOTE_MAX_LENGTH) + '...'
+    : prediction.originalQuote;
 
   const status = statusConfig[prediction.status];
   const confidence = confidenceConfig[prediction.confidence];
@@ -176,8 +188,26 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
               Оригинальная цитата
             </h3>
             <p className="text-sm italic leading-relaxed text-muted-foreground">
-              "{prediction.originalQuote}"
+              "{displayedQuote}"
             </p>
+            {isLongQuote && (
+              <button
+                onClick={() => setIsQuoteExpanded(!isQuoteExpanded)}
+                className="mt-2 flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+              >
+                {isQuoteExpanded ? (
+                  <>
+                    <ChevronUp className="h-4 w-4" />
+                    Свернуть
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-4 w-4" />
+                    Показать полностью
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
           {/* Проверка факта */}
