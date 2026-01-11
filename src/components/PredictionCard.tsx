@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Calendar, ExternalLink, Star, Clock, CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PredictionModal } from './PredictionModal';
 
 interface PredictionCardProps {
   prediction: Prediction;
@@ -55,6 +56,7 @@ const verificationConfig = {
 
 export const PredictionCard = ({ prediction }: PredictionCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const status = statusConfig[prediction.status];
   const confidence = confidenceConfig[prediction.confidence];
   const verification = verificationConfig[prediction.verificationStatus];
@@ -74,12 +76,24 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
 
   const hasVerification = prediction.verification?.actualResult;
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't open modal if clicking on links or buttons
+    const target = e.target as HTMLElement;
+    if (target.closest('a') || target.closest('button')) {
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
   return (
-    <Card className={cn(
-      'group flex flex-col overflow-hidden border-border/50 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5',
-      prediction.confidence === 'low' && 'opacity-75'
-    )}>
-      <div className="flex flex-1 flex-col p-5">
+    <>
+      <Card 
+        onClick={handleCardClick}
+        className={cn(
+          'group flex flex-col overflow-hidden border-border/50 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 cursor-pointer',
+          prediction.confidence === 'low' && 'opacity-75'
+        )}>
+        <div className="flex flex-1 flex-col p-5">
         {/* Header with expert info */}
         <div className="mb-4 flex items-start justify-between gap-3">
           <a
@@ -253,5 +267,12 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
         </div>
       </div>
     </Card>
+
+    <PredictionModal
+      prediction={prediction}
+      open={isModalOpen}
+      onOpenChange={setIsModalOpen}
+    />
+  </>
   );
 };
