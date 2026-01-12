@@ -93,77 +93,73 @@ export const ShareModal = ({ prediction, open, onOpenChange }: ShareModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[95vh] max-w-lg overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Share2 className="h-5 w-5" />
-            Поделиться прогнозом
+      <DialogContent className="max-w-md p-4">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="flex items-center gap-2 text-base">
+            <Share2 className="h-4 w-4" />
+            Поделиться
           </DialogTitle>
         </DialogHeader>
 
-        {/* Preview card */}
-        <div className="mb-4 flex justify-center overflow-hidden rounded-lg border border-border bg-muted/30">
-          <div className="scale-[0.45] origin-top">
+        {/* Preview card - larger scale */}
+        <div className="flex justify-center overflow-hidden rounded-lg border border-border bg-muted/30 p-2">
+          <div className="scale-[0.55] origin-top -mb-[180px]">
             <ShareCard ref={cardRef} prediction={prediction} />
           </div>
         </div>
 
-        {/* Share buttons */}
-        <div className="space-y-4">
-          {/* Native share (mobile) */}
-          <Button
-            onClick={handleNativeShare}
-            className="w-full gap-2"
-            size="lg"
-          >
-            <Share2 className="h-5 w-5" />
-            Поделиться
-          </Button>
-
-          {/* Messenger buttons */}
-          <div className="grid grid-cols-2 gap-3">
+        {/* Share buttons - compact */}
+        <div className="space-y-3 pt-2">
+          {/* Native share + messengers in one row */}
+          <div className="grid grid-cols-3 gap-2">
+            <Button
+              onClick={handleNativeShare}
+              size="sm"
+              className="gap-1.5"
+            >
+              <Share2 className="h-4 w-4" />
+              Ссылка
+            </Button>
             <Button
               onClick={handleWhatsAppShare}
               variant="outline"
-              className="gap-2 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 hover:text-emerald-700"
+              size="sm"
+              className="gap-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
             >
-              <MessageCircle className="h-5 w-5" />
+              <MessageCircle className="h-4 w-4" />
               WhatsApp
             </Button>
             <Button
               onClick={handleTelegramShare}
               variant="outline"
-              className="gap-2 bg-sky-500/10 text-sky-600 hover:bg-sky-500/20 hover:text-sky-700"
+              size="sm"
+              className="gap-1.5 bg-sky-500/10 text-sky-600 hover:bg-sky-500/20"
             >
-              <Send className="h-5 w-5" />
+              <Send className="h-4 w-4" />
               Telegram
             </Button>
           </div>
 
-          {/* Download for Instagram/Stories */}
-          <div className="border-t border-border pt-4">
-            <p className="mb-3 text-center text-sm text-muted-foreground">
-              Для Instagram Stories скачайте изображение:
-            </p>
-            <Button
-              onClick={handleDownloadImage}
-              variant="outline"
-              className="w-full gap-2 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 hover:from-purple-500/20 hover:via-pink-500/20 hover:to-orange-500/20"
-              disabled={isGenerating}
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Генерация...
-                </>
-              ) : (
-                <>
-                  <Download className="h-5 w-5" />
-                  Скачать для Instagram / Stories
-                </>
-              )}
-            </Button>
-          </div>
+          {/* Download for Instagram */}
+          <Button
+            onClick={handleDownloadImage}
+            variant="outline"
+            size="sm"
+            className="w-full gap-2 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 hover:from-purple-500/20 hover:via-pink-500/20 hover:to-orange-500/20"
+            disabled={isGenerating}
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Генерация...
+              </>
+            ) : (
+              <>
+                <Download className="h-4 w-4" />
+                Скачать для Instagram / Stories
+              </>
+            )}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
