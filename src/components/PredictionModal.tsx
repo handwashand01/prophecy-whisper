@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
+import { ShareModal } from './ShareModal';
 import {
   Calendar,
   ExternalLink,
@@ -23,6 +24,7 @@ import {
   Link2,
   ChevronDown,
   ChevronUp,
+  Share2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -78,6 +80,7 @@ const verificationConfig = {
 
 export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionModalProps) => {
   const [isQuoteExpanded, setIsQuoteExpanded] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   if (!prediction) return null;
 
@@ -298,21 +301,38 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
             </div>
           </div>
 
-          <Button
-            asChild
-            variant="outline"
-            className="gap-2 bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 hover:text-rose-600"
-          >
-            <a
-              href={youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => setIsShareOpen(true)}
             >
-              <ExternalLink className="h-4 w-4" />
-              Смотреть на YouTube
-            </a>
-          </Button>
+              <Share2 className="h-4 w-4" />
+              Поделиться
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              className="gap-2 bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 hover:text-rose-600"
+            >
+              <a
+                href={youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="h-4 w-4" />
+                YouTube
+              </a>
+            </Button>
+          </div>
         </div>
+
+        <ShareModal
+          prediction={prediction}
+          open={isShareOpen}
+          onOpenChange={setIsShareOpen}
+        />
       </DialogContent>
     </Dialog>
   );
