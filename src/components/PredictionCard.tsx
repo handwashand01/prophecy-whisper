@@ -4,9 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Calendar, ExternalLink, Star, Clock, CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calendar, ExternalLink, Star, Clock, CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronUp, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PredictionModal } from './PredictionModal';
+import { ShareModal } from './ShareModal';
 
 interface PredictionCardProps {
   prediction: Prediction;
@@ -57,6 +58,7 @@ const verificationConfig = {
 export const PredictionCard = ({ prediction }: PredictionCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const status = statusConfig[prediction.status];
   const confidence = confidenceConfig[prediction.confidence];
   const verification = verificationConfig[prediction.verificationStatus];
@@ -122,6 +124,18 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
               </div>
             </div>
           </a>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 shrink-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsShareOpen(true);
+            }}
+          >
+            <Share2 className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Поделиться</span>
+          </Button>
         </div>
 
         {/* Topic and confidence */}
@@ -272,6 +286,12 @@ export const PredictionCard = ({ prediction }: PredictionCardProps) => {
       prediction={prediction}
       open={isModalOpen}
       onOpenChange={setIsModalOpen}
+    />
+
+    <ShareModal
+      prediction={prediction}
+      open={isShareOpen}
+      onOpenChange={setIsShareOpen}
     />
   </>
   );
