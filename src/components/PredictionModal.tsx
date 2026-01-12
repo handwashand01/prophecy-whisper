@@ -128,12 +128,23 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
             />
           </a>
           <div className="flex-1">
-            <a
-              href={prediction.expert.profileLink}
-              className="text-lg font-semibold hover:underline"
-            >
-              {prediction.expert.name}
-            </a>
+            <div className="flex items-center justify-between gap-2">
+              <a
+                href={prediction.expert.profileLink}
+                className="text-lg font-semibold hover:underline"
+              >
+                {prediction.expert.name}
+              </a>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => setIsShareOpen(true)}
+              >
+                <Share2 className="h-4 w-4" />
+                Поделиться
+              </Button>
+            </div>
             <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
@@ -261,29 +272,6 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
             </div>
           )}
 
-          {/* Confidence Score */}
-          {prediction.verification?.confidenceScore !== undefined && (
-            <div>
-              <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                Уверенность в верификации
-              </h3>
-              <div className="flex items-center gap-3">
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={cn(
-                      'h-full rounded-full transition-all',
-                      prediction.verification.confidenceScore >= 0.7 ? 'bg-emerald-500' :
-                      prediction.verification.confidenceScore >= 0.5 ? 'bg-amber-500' : 'bg-rose-500'
-                    )}
-                    style={{ width: `${prediction.verification.confidenceScore * 100}%` }}
-                  />
-                </div>
-                <span className="text-sm font-medium">
-                  {Math.round(prediction.verification.confidenceScore * 100)}%
-                </span>
-              </div>
-            </div>
-          )}
         </div>
 
         <Separator className="my-4" />
@@ -301,31 +289,20 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="gap-2"
-              onClick={() => setIsShareOpen(true)}
+          <Button
+            asChild
+            variant="outline"
+            className="gap-2 bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 hover:text-rose-600"
+          >
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <Share2 className="h-4 w-4" />
-              Поделиться
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              className="gap-2 bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 hover:text-rose-600"
-            >
-              <a
-                href={youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="h-4 w-4" />
-                YouTube
-              </a>
-            </Button>
-          </div>
+              <ExternalLink className="h-4 w-4" />
+              YouTube
+            </a>
+          </Button>
         </div>
 
         <ShareModal
