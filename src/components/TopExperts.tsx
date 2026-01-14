@@ -59,11 +59,11 @@ export const TopExperts = ({ experts, predictions, topics }: TopExpertsProps) =>
         }
       });
       
-      // Sort by accuracy and take top 3
+      // Sort by accuracy and take top 1
       const topExperts = Array.from(expertStatsMap.values())
         .filter(s => s.total >= 1) // At least 1 prediction
         .sort((a, b) => b.accuracy - a.accuracy || b.total - a.total)
-        .slice(0, 3);
+        .slice(0, 1);
       
       return {
         topic,
@@ -91,27 +91,17 @@ export const TopExperts = ({ experts, predictions, topics }: TopExpertsProps) =>
             </div>
             
             <div className="space-y-3">
-              {topExperts.map((stats, index) => (
+              {topExperts.map((stats) => (
                 <Link
                   key={stats.expert.id}
                   to={stats.expert.profileLink}
                   className="group flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-muted/50"
                 >
-                  <div className="relative">
-                    <img
-                      src={stats.expert.avatar}
-                      alt={stats.expert.name}
-                      className="h-10 w-10 rounded-full border border-border object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className={cn(
-                      'absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold',
-                      index === 0 ? 'bg-amber-500 text-white' :
-                      index === 1 ? 'bg-slate-400 text-white' :
-                      'bg-amber-700 text-white'
-                    )}>
-                      {index + 1}
-                    </div>
-                  </div>
+                  <img
+                    src={stats.expert.avatar}
+                    alt={stats.expert.name}
+                    className="h-10 w-10 rounded-full border border-border object-cover transition-transform group-hover:scale-105"
+                  />
                   
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium truncate">{stats.expert.name}</p>
