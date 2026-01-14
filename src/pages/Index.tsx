@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Header } from '@/components/Header';
+import { HeroSection } from '@/components/HeroSection';
 import { TopExperts } from '@/components/TopExperts';
 import { PredictionFilters } from '@/components/PredictionFilters';
 import { PredictionCard } from '@/components/PredictionCard';
@@ -33,6 +34,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+
+      <HeroSection />
 
       <main className="container mx-auto px-4 py-6">
         <TopExperts experts={experts} predictions={predictions} topics={topics} />
