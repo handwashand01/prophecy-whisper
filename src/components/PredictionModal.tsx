@@ -25,6 +25,7 @@ import {
   ChevronDown,
   ChevronUp,
   Share2,
+  Youtube,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -251,6 +252,23 @@ export const PredictionModal = ({ prediction, open, onOpenChange }: PredictionMo
                 Прогноз ожидает наступления срока проверки ({formatDate(prediction.targetDate)})
               </p>
             )}
+          </div>
+
+          {/* Источник видео */}
+          <div>
+            <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+              <Youtube className="h-4 w-4" />
+              Источник
+            </h3>
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-primary underline-offset-2 hover:underline"
+            >
+              <ExternalLink className="h-4 w-4" />
+              {prediction.sourceTitle}
+            </a>
           </div>
 
           {/* Источник верификации */}
