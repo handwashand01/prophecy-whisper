@@ -35,6 +35,15 @@ const Index = () => {
       <Header />
 
       <main className="container mx-auto px-4 py-6">
+        {/* Hero текст */}
+        <div className="mb-6 rounded-xl border border-border/50 bg-muted/30 px-4 py-4 text-center">
+          <p className="text-sm sm:text-base text-muted-foreground">
+            <span className="font-semibold text-foreground">Фиксируем</span> прогнозы экспертов · 
+            <span className="font-semibold text-foreground"> Проверяем</span> их · 
+            <span className="font-semibold text-foreground"> Публикуем</span> фактические результаты
+          </p>
+        </div>
+
         <TopExperts experts={experts} predictions={predictions} topics={topics} />
 
         <section className="py-8">
